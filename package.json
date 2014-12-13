@@ -1,0 +1,19 @@
+{
+  "name": "qute",
+  "version": "0.0.1",
+  "repo": "jwerle/qute",
+  "description": "Simple lexer and parser",
+  "keywords": ["parser", "lexer"],
+  "devDependencies": { "jwerle/fs.c": "*" },
+  "src": [
+    "ast.c",
+    "ast.h",
+    "lex.c",
+    "lex.h",
+    "qute.h",
+    "error.h",
+    "parser.c",
+    "parser.h"
+  ]
+}
+
