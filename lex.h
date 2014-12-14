@@ -7,27 +7,48 @@
 #ifndef QUTE_LEX_H
 #define QUTE_LEX_H
 
-struct q_lex_token;
+#include <stdlib.h>
+
 struct q_lex;
+struct q_lex_token;
+
+/**
+ * token types def.
+ */
+
+#define QLEX_TOKEN_TYPES \
+  X(QTOK_NONE),          \
+  X(QTOK_COMMA),         \
+  X(QTOK_STRING),        \
+  X(QTOK_NUMBER),        \
+  X(QTOK_LPAREN),        \
+  X(QTOK_RPAREN),        \
+  X(QTOK_LBRACE),        \
+  X(QTOK_RBRACE),        \
+  X(QTOK_LBRACKET),      \
+  X(QTOK_RBRACKET),      \
+  X(QTOK_OPERATOR),      \
+  X(QTOK_IDENTIFIER),    \
 
 /**
  * token types.
  */
 
 typedef enum {
-  QTOK_NONE = 0,
-  QTOK_COMMA,
-  QTOK_STRING,
-  QTOK_NUMBER,
-  QTOK_LPAREN,
-  QTOK_RPAREN,
-  QTOK_LBRACE,
-  QTOK_RBRACE,
-  QTOK_LBRACKET,
-  QTOK_RBRACKET,
-  QTOK_OPERATOR,
-  QTOK_IDENTIFIER,
+#define X(x) x
+  QLEX_TOKEN_TYPES
+#undef X
 } q_lex_tok_t;
+
+/**
+ * token type strings.
+ */
+
+static char *qlex_tok_str[] = {
+#define X(x) # x
+  QLEX_TOKEN_TYPES
+#undef X
+};
 
 /**
  * lexer token structure.

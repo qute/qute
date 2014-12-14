@@ -62,6 +62,7 @@ token (q_lex_t *self, q_lex_tok_t type, const char *string) {
   self->token.colno = self->colno;
   self->token.lineno = self->lineno;
   self->token.as.string = strdup(string);
+  self->token.as.number = 0;
 
   if (QTOK_NUMBER == type) {
     self->token.as.number = atof(string);
@@ -126,7 +127,9 @@ scan_identifier (q_lex_t *self, unsigned char ch) {
     ch = next(self);
   } while (isalpha(ch) || isdigit(ch) || '_' == ch || '.' == ch);
 
-  prev(self);
+  if (self->offset < self->length) {
+    prev(self);
+  }
 
   if (0 == size) {
     return QE_LEXTOKEN;

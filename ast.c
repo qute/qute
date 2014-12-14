@@ -133,14 +133,16 @@ q_node_token_init (q_node_token_t *self) {
 int
 q_node_block_push (q_node_block_t *self, q_node_t *node) {
   if (self->length < QMAX_BLOCK_NODES) {
-    // link
-    if (self->length > 1) {
-      self->nodes[self->length -1]->next = node;
-      node->prev = self->nodes[self->length -1];
-    }
 
     // push
     self->nodes[self->length++] = node;
+
+    // link
+    if (self->length > 1) {
+      self->nodes[self->length -2]->next = node;
+      node->prev = self->nodes[self->length -2];
+    }
+
     return self->length;
   }
 

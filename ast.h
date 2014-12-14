@@ -7,6 +7,7 @@
 #ifndef QUTE_AST_H
 #define QUTE_AST_H
 
+#include <stdlib.h>
 #include "lex.h"
 
 /**
@@ -14,6 +15,7 @@
  */
 
 struct q_node;
+struct q_node_as_s;
 struct q_node_block;
 struct q_node_token;
 struct q_node_string;
@@ -49,26 +51,24 @@ struct q_node_expression;
  */
 
 #define Q_NODE_FIELDS        \
+  const char *id;            \
   q_node_type_t type;        \
   q_lex_token_t token;       \
   struct q_node *prev;       \
   struct q_node *next;       \
-  struct {                   \
-    const char *string;      \
-    float number;            \
-  } as;                      \
+  struct q_node_as_s as;
 
 /**
  * node type def.
  */
 
 #define QNODE_TYPES          \
-  X(QNODE_BLOCK),               \
-  X(QNODE_TOKEN),               \
-  X(QNODE_STRING),              \
-  X(QNODE_NUMBER),              \
-  X(QNODE_OPERATOR),            \
-  X(QNODE_IDENTIFIER),          \
+  X(QNODE_BLOCK),            \
+  X(QNODE_TOKEN),            \
+  X(QNODE_STRING),           \
+  X(QNODE_NUMBER),           \
+  X(QNODE_OPERATOR),         \
+  X(QNODE_IDENTIFIER),       \
 
 /**
  * node enum types.
@@ -84,6 +84,11 @@ static char *qnode_str[] = {
 #define X(x) # x
   QNODE_TYPES
 #undef X
+};
+
+struct q_node_as_s {
+  const char *string;
+  float number;
 };
 
 /**

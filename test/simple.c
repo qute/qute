@@ -85,6 +85,10 @@ main (void) {
         case 11: // )
           assert(QNODE_TOKEN == node->type);
           break;
+
+        case 12: // 543.210
+          assert(QNODE_NUMBER == node->type);
+          break;
       }
 
       sprintf(buf, "node[%s]: `%s'",
