@@ -4,6 +4,7 @@
  * copyright (c) 2014 - joseph.werle@gmail.com
  */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +14,7 @@
 #include "error.h"
 
 #define peek(self) self->src[self->offset]
+#define EQ(a, b) (0 == strcmp(a, b))
 
 static unsigned char
 next (q_lex_t *self) {
@@ -32,12 +34,34 @@ next (q_lex_t *self) {
   return ch;
 }
 
+static unsigned char
+prev (q_lex_t *self) {
+  unsigned char ch = 0;
+  int idx = self->offset - 1;
+  if (idx < 0) {
+    self->offset = 0;
+    self->colno = 1;
+    self->ch = self->src[0];
+    return self->src[0];
+  } else {
+    self->offset--;
+    if (self->colno < 3) {
+      self->colno = 1;
+    } else {
+      self->colno--;
+    }
+
+    self->ch = self->src[idx];
+    return self->src[idx];
+  }
+}
+
 static void
 token (q_lex_t *self, q_lex_tok_t type, const char *string) {
   self->token.type = type;
   self->token.colno = self->colno;
   self->token.lineno = self->lineno;
-  self->token.as.string = string;
+  self->token.as.string = strdup(string);
 
   if (QTOK_NUMBER == type) {
     self->token.as.number = atof(string);
@@ -52,7 +76,7 @@ scan_string (q_lex_t *self, unsigned char ch) {
   int ignore = 0;
 
   // ensure ch is actually a quote
-  if ('"' != quote || '\'' != quote) {
+  if ('"' != quote && '\'' != quote) {
     return QE_LEXTOKEN;
   }
 
@@ -86,6 +110,49 @@ scan_string (q_lex_t *self, unsigned char ch) {
 
 static int
 scan_identifier (q_lex_t *self, unsigned char ch) {
+  unsigned char buf[BUFSIZ];
+  size_t size = 0;
+  int num = 0;
+  int set = 0;
+  int i = 0;
+
+  do {
+#ifdef QCHAR_COMMENT
+    if (QCHAR_COMMENT == ch) {
+      while (ch != '\n' && ch != '\r') { ch = next(self); }
+    }
+#endif
+    buf[size++] = ch;
+    ch = next(self);
+  } while (isalpha(ch) || isdigit(ch) || '_' == ch || '.' == ch);
+
+  prev(self);
+
+  if (0 == size) {
+    return 1;
+  }
+
+  buf[size] = '\0';
+  num = 1;
+
+  for (; i < size; ++i) {
+    if (!isdigit(buf[i]) && '.' != buf[i]) {
+      num = 0;
+    }
+  }
+
+#define SET_TOKEN_IF(str, tok)                             \
+  if (0 == set && EQ((char * ) str, (char *) buf)) {       \
+    set = 1; token(self, tok, (char *) buf);               \
+  }
+
+  if (num) {
+    token(self, QTOK_NUMBER, (char *) buf);
+  } else {
+    SET_TOKEN_IF(buf, QTOK_IDENTIFIER);
+  }
+
+#undef SET_TOKEN_IF
   return 0;
 }
 
@@ -119,7 +186,7 @@ scan:
   switch (ch) {
     // EOF
     case '\0':
-      return 1;
+      return -1;
 
     // white space and tabs
     case ' ': case '\t':
@@ -143,7 +210,7 @@ scan:
       return scan_string(self, ch);
 
     case ',':
-      token(self, QTOK_COMMA, "ch");
+      token(self, QTOK_COMMA, ",");
       break;
 
     case '(':
@@ -182,3 +249,6 @@ scan:
 
   return 0;
 }
+
+#undef peek
+#undef EQ

@@ -32,6 +32,7 @@ enum {
    */
 
   QE_ASTNODEMEM,
+  QE_NODE_NULL,
 
 };
 

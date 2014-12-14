@@ -7,12 +7,15 @@
 #ifndef QUTE_AST_H
 #define QUTE_AST_H
 
+#include "lex.h"
+
 /**
  * node structures.
  */
 
 struct q_node;
 struct q_node_block;
+struct q_node_token;
 struct q_node_string;
 struct q_node_number;
 struct q_node_operator;
@@ -20,7 +23,7 @@ struct q_node_identifier;
 struct q_node_expression;
 
 /**
- * program node aliased to `q_node_block'
+ * program node aliased to `q_node_block'.
  */
 
 #define q_program q_node_block
@@ -40,11 +43,21 @@ struct q_node_expression;
 #define QMAX_BLOCK_NODES 0xffff
 
 /**
+ * ast block node ierator.
+ */
+
+#define QAST_BLOCK_EACH(block, node, body) ({    \
+  for (int i = 0; i < (block)->length; ++i)      \
+  { node = (block)->nodes[i]; (body); }          \
+})
+
+/**
  * base parser node fields.
  */
 
 #define Q_NODE_FIELDS        \
   q_node_type_t type;        \
+  q_lex_token_t token;       \
   struct q_node *prev;       \
   struct q_node *next;       \
   struct {                   \
@@ -53,25 +66,40 @@ struct q_node_expression;
   } as;                      \
 
 /**
- * node types.
+ * node type def.
+ */
+
+#define QNODE_TYPES          \
+  QNODE_BLOCK,               \
+  QNODE_STRING,              \
+  QNODE_NUMBER,              \
+  QNODE_OPERATOR,            \
+  QNODE_IDENTIFIER,          \
+  QNODE_EXPRESSION,          \
+
+/**
+ * node enum types.
  */
 
 typedef enum {
-  QNODE_BLOCK,
-  QNODE_STRING,
-  QNODE_NUMBER,
-  QNODE_OPERATOR,
-  QNODE_IDENTIFIER,
-  QNODE_EXPRESSION,
+  QNODE_TYPES
 } q_node_type_t;
 
 /**
- * parser node.
+ * parser base node.
  */
 
 typedef struct q_node {
   Q_NODE_FIELDS;
 } q_node_t;
+
+/**
+ * parser token node.
+ */
+
+typedef struct q_node_token {
+  Q_NODE_FIELDS;
+} q_node_token_t;
 
 /**
  * parser block node.
@@ -131,7 +159,7 @@ typedef struct q_node_expression {
  */
 
 int
-q_node_init (q_node_t **);
+q_node_init (q_node_t *);
 
 /**
  * initializes parser block node.
@@ -174,6 +202,13 @@ q_node_identifier_init (q_node_identifier_t *);
 
 int
 q_node_expression_init (q_node_expression_t *);
+
+/**
+ * initializes parser token node.
+ */
+
+int
+q_node_token_init (q_node_token_t *);
 
 /**
  * pushes a node onto a block.

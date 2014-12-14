@@ -28,5 +28,9 @@ main (void) {
     return 1;
   }
 
+  QAST_BLOCK_EACH(&program, q_node_t *node, {
+    printf("token: %s\n", node->token.as.string);
+  });
+
   return 0;
 }

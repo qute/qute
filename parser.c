@@ -53,51 +53,68 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
     if (rc > 0) { return rc; }
   }
 
-  while (0 == q_lex_scan(self->lex)) {
-    q_lex_token_t token = self->lex->token;
-    q_node_t *node = NULL;
+  while (0 == (rc = q_lex_scan(self->lex))) {
+    q_node_expression_t *expression = NULL;
+    q_node_identifier_t *identifier = NULL;
+    q_node_operator_t *operator = NULL;
     q_node_string_t *string = NULL;
+    q_node_number_t *number = NULL;
+    q_node_token_t *token = NULL;
+    q_node_block_t *block = NULL;
+    q_node_t *node = NULL;
 
-    switch (token.type) {
+    switch (self->lex->token.type) {
       case QTOK_NONE:
         break;
 
-      case QTOK_COMMA:
-        break;
-
       case QTOK_STRING:
-        rc = q_node_string_init(string, token.as.string);
+        string = (q_node_string_t *) malloc(sizeof(q_node_string_t));
+        rc = q_node_string_init(string, self->lex->token.as.string);
         if (rc > 0) { return rc; }
         node = (q_node_t *) string;
         break;
 
       case QTOK_NUMBER:
+        number = (q_node_number_t *) malloc(sizeof(q_node_number_t));
+        rc = q_node_number_init(number, self->lex->token.as.number);
+        if (rc > 0) { return rc; }
+        node = (q_node_t *) number;
         break;
 
+      case QTOK_COMMA:
       case QTOK_LPAREN:
-        break;
-
       case QTOK_RPAREN:
-        break;
-
       case QTOK_LBRACE:
-        break;
-
       case QTOK_RBRACE:
-        break;
-
       case QTOK_LBRACKET:
-        break;
-
       case QTOK_RBRACKET:
+        token = (q_node_token_t *) malloc(sizeof(q_node_token_t));
+        rc = q_node_token_init(token);
+        if (rc > 0) { return rc; }
+        node = (q_node_t *) token;
         break;
 
       case QTOK_OPERATOR:
+        operator = (q_node_operator_t *) malloc(sizeof(q_node_operator_t));
+        rc = q_node_operator_init(operator);
+        if (rc > 0) { return rc; }
+        node = (q_node_t *) operator;
         break;
 
       case QTOK_IDENTIFIER:
+        identifier = (q_node_identifier_t *) malloc(sizeof(q_node_identifier_t));
+        rc = q_node_identifier_init(identifier);
+        if (rc > 0) { return rc; }
+        node = (q_node_t *) identifier;
         break;
     }
+
+    if (NULL == node) {
+      continue;
+    }
+
+    // set token
+    node->token = self->lex->token;
 
     // push to block
     rc = q_node_block_push(root, node);
