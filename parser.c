@@ -66,14 +66,14 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
         break;
 
       case QTOK_STRING:
-        string = (q_node_string_t *) malloc(sizeof(q_node_string_t));
+        if (NULL == q_node_alloc(string, string)) { return QE_PARSERMEM; }
         rc = q_node_string_init(string, self->lex->token.as.string);
         if (rc > 0) { return rc; }
         node = (q_node_t *) string;
         break;
 
       case QTOK_NUMBER:
-        number = (q_node_number_t *) malloc(sizeof(q_node_number_t));
+        if (NULL == q_node_alloc(number, number)) { return QE_PARSERMEM; }
         rc = q_node_number_init(number, self->lex->token.as.number);
         if (rc > 0) { return rc; }
         node = (q_node_t *) number;
@@ -86,21 +86,21 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
       case QTOK_RBRACE:
       case QTOK_LBRACKET:
       case QTOK_RBRACKET:
-        token = (q_node_token_t *) malloc(sizeof(q_node_token_t));
+        if (NULL == q_node_alloc(token, token)) { return QE_PARSERMEM; }
         rc = q_node_token_init(token);
         if (rc > 0) { return rc; }
         node = (q_node_t *) token;
         break;
 
       case QTOK_OPERATOR:
-        operator = (q_node_operator_t *) malloc(sizeof(q_node_operator_t));
+        if (NULL == q_node_alloc(operator, operator)) { return QE_PARSERMEM; }
         rc = q_node_operator_init(operator);
         if (rc > 0) { return rc; }
         node = (q_node_t *) operator;
         break;
 
       case QTOK_IDENTIFIER:
-        identifier = (q_node_identifier_t *) malloc(sizeof(q_node_identifier_t));
+        if (NULL == q_node_alloc(identifier, identifier)) { return QE_PARSERMEM; }
         rc = q_node_identifier_init(identifier);
         if (rc > 0) { return rc; }
         node = (q_node_t *) identifier;

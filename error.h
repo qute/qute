@@ -30,4 +30,7 @@ static char *qerror_str[] = {
 #undef X
 };
 
+void
+qthrow (q_program_t *, q_node_t *, const char *, const char *);
+
 #endif

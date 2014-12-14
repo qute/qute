@@ -24,6 +24,8 @@ struct q_node_operator;
 struct q_node_identifier;
 struct q_node_expression;
 
+#define q_node_ q_node
+
 /**
  * program node aliased to `q_node_block'.
  */
@@ -63,6 +65,7 @@ struct q_node_expression;
  */
 
 #define QNODE_TYPES          \
+  X(QNODE_NULL),             \
   X(QNODE_BLOCK),            \
   X(QNODE_TOKEN),            \
   X(QNODE_STRING),           \
@@ -149,6 +152,14 @@ typedef struct q_node_operator {
 typedef struct q_node_identifier {
   Q_NODE_FIELDS;
 } q_node_identifier_t;
+
+/**
+ * allocates parser node.
+ */
+
+#define q_node_alloc(T, n) \
+  (n = (NULL != n ? n :    \
+   (struct q_node_##T *) malloc(sizeof(struct q_node_ ##T))))
 
 /**
  * initializes parser node.

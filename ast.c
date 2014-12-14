@@ -14,19 +14,22 @@
 int
 q_node_init (q_node_t *self) {
   if (NULL == self) {
-    self = (q_node_t *) malloc(sizeof(q_node_t));
-  }
-
-  if (NULL == self) {
     return QE_ASTNODEMEM;
   }
+
+  self->id = "";
+  self->type = QNODE_NULL;
+  self->prev = NULL;
+  self->next = NULL;
+  self->as.number = 0.0;
+  self->as.string = "";
 
   return 0;
 }
 
 int
 q_node_block_init (q_node_block_t *self) {
-  int rc = q_node_init((q_node_t *) &self);
+  int rc = q_node_init((q_node_t *) self);
 
   if (rc > 0) {
     return rc;
@@ -43,7 +46,7 @@ q_node_block_init (q_node_block_t *self) {
 
 int
 q_node_string_init (q_node_string_t *self, const char *string) {
-  int rc = q_node_init((q_node_t *) &self);
+  int rc = q_node_init((q_node_t *) self);
 
   if (rc > 0) {
     return rc;
@@ -64,7 +67,7 @@ q_node_string_init (q_node_string_t *self, const char *string) {
 
 int
 q_node_number_init (q_node_number_t *self, float number) {
-  int rc = q_node_init((q_node_t *) &self);
+  int rc = q_node_init((q_node_t *) self);
   char str[BUFSIZ];
 
   if (rc > 0) {
@@ -90,7 +93,7 @@ q_node_number_init (q_node_number_t *self, float number) {
 
 int
 q_node_operator_init (q_node_operator_t *self) {
-  int rc = q_node_init((q_node_t *) &self);
+  int rc = q_node_init((q_node_t *) self);
 
   if (rc > 0) {
     return rc;
@@ -107,7 +110,7 @@ q_node_operator_init (q_node_operator_t *self) {
 
 int
 q_node_identifier_init (q_node_identifier_t *self) {
-  int rc = q_node_init((q_node_t *) &self);
+  int rc = q_node_init((q_node_t *) self);
 
   if (rc > 0) {
     return rc;
@@ -119,7 +122,7 @@ q_node_identifier_init (q_node_identifier_t *self) {
 
 int
 q_node_token_init (q_node_token_t *self) {
-  int rc = q_node_init((q_node_t *) &self);
+  int rc = q_node_init((q_node_t *) self);
 
   if (rc > 0) {
     return rc;

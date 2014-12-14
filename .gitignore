@@ -30,3 +30,6 @@
 test/simple
 examples/basic
 examples/math
+test/ast
+test/lex
+test/parser

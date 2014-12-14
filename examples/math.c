@@ -4,19 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void
-throw (q_program_t *program, q_node_t *node, const char *name, const char *message) {
-  char trace[BUFSIZ];
-
-  sprintf(trace, "at %s:%d:%d",
-      program->id, node->token.lineno, node->token.colno);
-
-  fprintf(stderr, "%s: %s\n\t%s\n",
-      name, message, trace);
-
-  exit(1);
-}
-
 int
 main (void) {
   int rc = 0;
@@ -30,7 +17,8 @@ main (void) {
   const char *src = "10 + 10\n" // 20
                     "8 * 2\n" // 16
                     "10 / 2\n" // 5
-                    "5 - 5"; // 0
+                    "5 - 5\n" // 0
+                    "2.5 * 2\n"; // 0
 
   // init
   if ((rc = q_parser_init(&parser, name, src)) > 0) {
@@ -46,7 +34,7 @@ main (void) {
 
   program.id = name;
 
-#define ThrowSyntaxError(msg) throw(&program, node, "SyntaxError", msg)
+#define ThrowSyntaxError(msg) qthrow(&program, node, "SyntaxError", msg)
   // traverse
   QAST_BLOCK_EACH(&program, q_node_t *node, {
     q_node_number_t *left = (q_node_number_t *) node->prev;

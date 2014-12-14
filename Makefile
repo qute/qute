@@ -2,7 +2,6 @@
 SRC = $(wildcard *.c)
 LIB ?= libqute.a
 OBJS ?= $(SRC:.c=.o)
-TESTS ?= $(wildcard test/*.c)
 
 PREFIX ?= /usr/local
 
@@ -10,6 +9,9 @@ DEP_SRC ?= $(wildcard deps/*/*.c)
 
 EXAMPLES_SRC ?= $(wildcard examples/*.c)
 EXAMPLES ?= $(EXAMPLES_SRC:.c=)
+
+TESTS_SRC ?= $(wildcard test/*.c)
+TESTS ?= $(TESTS_SRC:.c=)
 
 .PHONY: $(LIB)
 $(LIB): $(OBJS)
@@ -21,7 +23,7 @@ $(OBJS):
 
 clean:
 	rm -f $(LIB) $(OBJS)
-	rm -f $(TESTS:.c=)
+	rm -f $(TESTS)
 	rm -f $(EXAMPLES)
 
 install: $(LIB)
@@ -30,15 +32,18 @@ install: $(LIB)
 uninstall:
 	rm -f $(PREFIX)/lib/$(LIB)
 
-test: test/simple
-
-test/simple: $(LIB)
-	$(CC) -I. -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
-	./$(@)
 
 examples/: examples
 examples: $(EXAMPLES)
 
+test/: test
+test: $(TESTS)
+
 .PHONY: $(EXAMPLES)
 $(EXAMPLES):
 	$(CC) -I. -Ideps $(LIB) $(@).c -o $(@)
+
+.PHONY: $(TESTS)
+$(TESTS):
+	$(CC) -I. -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
+	./$(@)
