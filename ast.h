@@ -30,13 +30,6 @@ struct q_node_expression;
 #define q_program_t q_node_block_t
 
 /**
- * alias q_node_block_push for q_node_expression type.
- */
-
-#define q_node_expression_push(self, node) \
-  q_node_block_push((q_node_block_t *) self, (q_node_t *))
-
-/**
  * max children parser nodes per block.
  */
 
@@ -70,20 +63,28 @@ struct q_node_expression;
  */
 
 #define QNODE_TYPES          \
-  QNODE_BLOCK,               \
-  QNODE_STRING,              \
-  QNODE_NUMBER,              \
-  QNODE_OPERATOR,            \
-  QNODE_IDENTIFIER,          \
-  QNODE_EXPRESSION,          \
+  X(QNODE_BLOCK),               \
+  X(QNODE_TOKEN),               \
+  X(QNODE_STRING),              \
+  X(QNODE_NUMBER),              \
+  X(QNODE_OPERATOR),            \
+  X(QNODE_IDENTIFIER),          \
 
 /**
  * node enum types.
  */
 
 typedef enum {
+#define X(x) x
   QNODE_TYPES
+#undef X
 } q_node_type_t;
+
+static char *qnode_str[] = {
+#define X(x) # x
+  QNODE_TYPES
+#undef X
+};
 
 /**
  * parser base node.
@@ -145,16 +146,6 @@ typedef struct q_node_identifier {
 } q_node_identifier_t;
 
 /**
- * parser expression node.
- */
-
-typedef struct q_node_expression {
-  Q_NODE_FIELDS;
-  q_node_t *nodes[QMAX_BLOCK_NODES];
-  size_t length;
-} q_node_expression_t;
-
-/**
  * initializes parser node.
  */
 
@@ -195,13 +186,6 @@ q_node_operator_init (q_node_operator_t *);
 
 int
 q_node_identifier_init (q_node_identifier_t *);
-
-/**
- * initializes parser expression node.
- */
-
-int
-q_node_expression_init (q_node_expression_t *);
 
 /**
  * initializes parser token node.

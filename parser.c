@@ -54,7 +54,6 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
   }
 
   while (0 == (rc = q_lex_scan(self->lex))) {
-    q_node_expression_t *expression = NULL;
     q_node_identifier_t *identifier = NULL;
     q_node_operator_t *operator = NULL;
     q_node_string_t *string = NULL;
@@ -115,6 +114,8 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
 
     // set token
     node->token = self->lex->token;
+    node->as.string = node->token.as.string;
+    node->as.number = node->token.as.number;
 
     // push to block
     rc = q_node_block_push(root, node);

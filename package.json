@@ -4,7 +4,10 @@
   "repo": "jwerle/qute",
   "description": "Simple lexer and parser",
   "keywords": ["parser", "lexer"],
-  "devDependencies": { "jwerle/fs.c": "*" },
+  "devDependencies": {
+    "jwerle/fs.c": "*",
+    "jwerle/libok": "*"
+  },
   "src": [
     "ast.c",
     "ast.h",

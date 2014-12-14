@@ -91,6 +91,7 @@ q_node_number_init (q_node_number_t *self, float number) {
 int
 q_node_operator_init (q_node_operator_t *self) {
   int rc = q_node_init((q_node_t *) &self);
+
   if (rc > 0) {
     return rc;
   }
@@ -106,20 +107,26 @@ q_node_operator_init (q_node_operator_t *self) {
 
 int
 q_node_identifier_init (q_node_identifier_t *self) {
-  return 0;
-}
+  int rc = q_node_init((q_node_t *) &self);
 
-/**
- * initializes parser expression node.
- */
+  if (rc > 0) {
+    return rc;
+  }
 
-int
-q_node_expression_init (q_node_expression_t *self) {
+  self->type = QNODE_IDENTIFIER;
   return 0;
 }
 
 int
 q_node_token_init (q_node_token_t *self) {
+  int rc = q_node_init((q_node_t *) &self);
+
+  if (rc > 0) {
+    return rc;
+  }
+
+  self->type = QNODE_TOKEN;
+
   return 0;
 }
 

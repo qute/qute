@@ -6,8 +6,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <fs/fs.h>
+#include <ok/ok.h>
 
 #include <qute.h>
 
@@ -15,8 +17,10 @@ int
 main (void) {
   const char *name = "simple";
   const char *src = fs_read("./test/simple.txt");
-  q_parser_t parser;
+  int index = 0;
+
   q_program_t program;
+  q_parser_t parser;
 
   // init
   if (q_parser_init(&parser, name, src) > 0) {
@@ -29,8 +33,63 @@ main (void) {
   }
 
   QAST_BLOCK_EACH(&program, q_node_t *node, {
-    printf("token: %s\n", node->token.as.string);
+      char buf[BUFSIZ];
+      switch (index++) {
+        case 0: // 123
+          assert(QNODE_NUMBER == node->type);
+          break;
+
+        case 1: // 456
+          assert(QNODE_NUMBER == node->type);
+          break;
+
+        case 2: // "bradley the kinkajou"
+          assert(QNODE_STRING == node->type);
+          break;
+
+        case 3: // a
+          assert(QNODE_IDENTIFIER == node->type);
+          break;
+
+        case 4: // b
+          assert(QNODE_IDENTIFIER == node->type);
+          break;
+
+        case 5: // (
+          assert(QNODE_TOKEN == node->type);
+          break;
+
+        case 6: // 123
+          assert(QNODE_NUMBER == node->type);
+          break;
+
+        case 7: // ,
+          assert(QNODE_TOKEN == node->type);
+          break;
+
+        case 8: // "456"
+          assert(QNODE_STRING == node->type);
+          break;
+
+        case 9: // ,
+          assert(QNODE_TOKEN == node->type);
+          break;
+
+        case 10: // 789
+          assert(QNODE_NUMBER == node->type);
+          break;
+
+        case 11: // )
+          assert(QNODE_TOKEN == node->type);
+          break;
+      }
+
+      sprintf(buf, "node[%s]: `%s'",
+        qnode_str[node->type],
+        node->as.string);
+      ok(buf);
   });
 
-  return 0;
+  ok_done();
+  return 0 == ok_count();
 }
