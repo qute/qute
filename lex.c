@@ -129,7 +129,7 @@ scan_identifier (q_lex_t *self, unsigned char ch) {
   prev(self);
 
   if (0 == size) {
-    return 1;
+    return QE_LEXTOKEN;
   }
 
   buf[size] = '\0';

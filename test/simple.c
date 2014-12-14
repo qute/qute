@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 
 #include <fs/fs.h>
@@ -21,6 +22,8 @@ main (void) {
 
   q_program_t program;
   q_parser_t parser;
+
+  memset(&program, 0, sizeof(program));
 
   // init
   if (q_parser_init(&parser, name, src) > 0) {

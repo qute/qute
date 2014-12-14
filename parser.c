@@ -52,7 +52,6 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
     rc = q_node_block_init(root);
     if (rc > 0) { return rc; }
   }
-
   while (0 == (rc = q_lex_scan(self->lex))) {
     q_node_identifier_t *identifier = NULL;
     q_node_operator_t *operator = NULL;
@@ -118,8 +117,7 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
     node->as.number = node->token.as.number;
 
     // push to block
-    rc = q_node_block_push(root, node);
-    if (QE_OVERFLOW == rc) { return 1; }
+    q_node_block_push(root, node);
   }
 
   return 0;

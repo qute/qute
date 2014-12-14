@@ -1,25 +1,3 @@
-qute
-====
-
-Simple lexer and parser API
-
-## install
-
-With clib:
-
-```sh
-$ clib install jwerle/qute
-```
-
-From source:
-
-```sh
-$ make install
-```
-
-## example
-
-```c
 
 #include <stdio.h>
 #include <string.h>
@@ -60,36 +38,3 @@ main (void) {
 
   return 0;
 }
-```
-
-When compiled will yield:
-
-```
-(node [QNODE_NUMBER] '123')
-(node [QNODE_STRING] '456')
-(node [QNODE_NUMBER] '789')
-(node [QNODE_TOKEN] '(')
-(node [QNODE_IDENTIFIER] 'a')
-(node [QNODE_TOKEN] ',')
-(node [QNODE_IDENTIFIER] 'b')
-(node [QNODE_TOKEN] ',')
-(node [QNODE_IDENTIFIER] 'c')
-(node [QNODE_TOKEN] ',')
-(node [QNODE_IDENTIFIER] 'd')
-(node [QNODE_TOKEN] ')')
-(node [QNODE_TOKEN] '[')
-(node [QNODE_NUMBER] '0')
-(node [QNODE_TOKEN] ',')
-(node [QNODE_NUMBER] '1')
-(node [QNODE_TOKEN] ']')
-```
-
-## api
-
-Coming soon...
-
-See header files
-
-## license
-
-MIT

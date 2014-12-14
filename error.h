@@ -7,33 +7,27 @@
 #ifndef QUTE_ERROR_H
 #define QUTE_ERROR_H
 
+#define QERROR_TYPES         \
+  X(QE_LOK),                 \
+  X(QE_OVERFLOW),            \
+  X(QE_LEXMEM),              \
+  X(QE_LEXNULL),             \
+  X(QE_LEXTOKEN),            \
+  X(QE_PARSERMEM),           \
+  X(QE_PARSERNULL),          \
+  X(QE_ASTNODEMEM),          \
+  X(QE_NODE_NULL),           \
+
 enum {
+#define X(x) x
+  QERROR_TYPES
+#undef X
+};
 
-  QE_OVERFLOW = -1,
-  QE_LOK = 0,
-
-  /**
-   * lex errors.
-   */
-
-  QE_LEXMEM,
-  QE_LEXNULL,
-  QE_LEXTOKEN,
-
-  /**
-   * parser errors.
-   */
-
-  QE_PARSERMEM,
-  QE_PARSERNULL,
-
-  /**
-   * ast errors.
-   */
-
-  QE_ASTNODEMEM,
-  QE_NODE_NULL,
-
+static char *qerror_str[] = {
+#define X(x) # x
+  QERROR_TYPES
+#undef X
 };
 
 #endif
