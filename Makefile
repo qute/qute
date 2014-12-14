@@ -8,7 +8,8 @@ PREFIX ?= /usr/local
 
 DEP_SRC ?= $(wildcard deps/*/*.c)
 
-EXAMPLES ?= examples/basic
+EXAMPLES_SRC ?= $(wildcard examples/*.c)
+EXAMPLES ?= $(EXAMPLES_SRC:.c=)
 
 .PHONY: $(LIB)
 $(LIB): $(OBJS)
@@ -34,10 +35,10 @@ test: test/simple
 test/simple: $(LIB)
 	$(CC) -I. -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
 	./$(@)
-.PHONY: $(EXAMPLES)
 
 examples/: examples
 examples: $(EXAMPLES)
 
-examples/basic:
+.PHONY: $(EXAMPLES)
+$(EXAMPLES):
 	$(CC) -I. -Ideps $(LIB) $(@).c -o $(@)

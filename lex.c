@@ -181,7 +181,9 @@ q_lex_init (q_lex_t *self, const char *name, const char *src) {
 int
 q_lex_scan (q_lex_t *self) {
   unsigned char ch = 0;
+  char tmp[BUFSIZ];
 scan:
+  memset(tmp, 0, BUFSIZ);
   ch = next(self);
   switch (ch) {
     // EOF
@@ -240,7 +242,8 @@ scan:
     case '+': case '-': case '*': case '/':
     case '=': case '<': case '>': case '&':
     case '%': case '~': case '?':
-      token(self, QTOK_OPERATOR, (const char *) &ch);
+      sprintf(tmp, "%c", ch);
+      token(self, QTOK_OPERATOR, (const char *) tmp);
       break;
 
     default:
