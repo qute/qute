@@ -24,7 +24,7 @@ next (q_lex_t *self) {
   ch = self->src[self->offset];
 
   // eof
-  if (self->offset == self->length - 1) {
+  if (self->offset == self->length) {
     return '\0';
   }
 
