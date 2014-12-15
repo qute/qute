@@ -243,7 +243,7 @@ scan:
 
     case '+': case '-': case '*': case '/':
     case '=': case '<': case '>': case '&':
-    case '%': case '~': case '?':
+    case '%': case '~': case '?': case '.':
       sprintf(tmp, "%c", ch);
       token(self, QTOK_OPERATOR, (const char *) tmp);
       break;
