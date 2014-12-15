@@ -1,6 +1,6 @@
 {
   "name": "qute",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repo": "qute/qute",
   "description": "Simple lexer and parser",
   "keywords": ["parser", "lexer"],
