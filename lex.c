@@ -30,6 +30,7 @@ next (q_lex_t *self) {
 
   self->ch = ch;
   self->offset++;
+  self->colno++;
 
   return ch;
 }
@@ -45,7 +46,7 @@ prev (q_lex_t *self) {
     return self->src[0];
   } else {
     self->offset--;
-    if (self->colno < 3) {
+    if (2 == self->colno) {
       self->colno = 1;
     } else {
       self->colno--;
@@ -103,7 +104,6 @@ scan_string (q_lex_t *self, unsigned char ch) {
   }
 
   buf[size] = '\0';
-  self->colno -= size;
   token(self, QTOK_STRING, (char *) buf);
 
   return 0;
@@ -163,6 +163,7 @@ void
 q_lex_token_init (q_lex_t *self, q_lex_token_t *token, q_lex_tok_t type) {
   token->type = type;
   token->lineno = self->lineno;
+  token->colno = self->colno;
 }
 
 int

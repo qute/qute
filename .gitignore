@@ -33,3 +33,4 @@ examples/math
 test/ast
 test/lex
 test/parser
+examples/program

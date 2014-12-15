@@ -84,6 +84,51 @@ When compiled will yield:
 (node [QNODE_TOKEN] ']')
 ```
 
+## example program
+
+Using the [program example](/jwerle/qute/tree/master/examples/program.c)
+with the following syntax we can parse and run a simple program that has
+functions, variables, scope, and a few built ins like the `print()` and
+`sleep` functions.
+
+Variables are defiend with the `=` operator. Functions are defined with
+the `def` operator and use the `end` operator to signal the end of the
+function body. Functions are called with the `()`. Currently function
+arguments are not supported unless passed to a built in like `print` or
+`sleep`.
+
+```ruby
+name = "werle"
+
+def hello ()
+  print("hello", name)
+end
+
+def goodbye ()
+  print("goodbye", name)
+end
+
+def main ()
+  hello()
+  sleep(2)
+  goodbye()
+end
+```
+
+The above code can be parsed and executed by the `program` binary compiled with
+the `make examples/program` command. Much like C, a `main` is
+automatically executed. However, it is optional here. The program should
+output `hello werle`, sleep for **2** seconds, and then output
+`goodbye werle` before exiting.
+
+```sh
+$ make
+$ make examples/program
+$ ./examples/program ./examples/program.txt
+hello werle
+goodbye werle
+```
+
 ## api
 
 Coming soon...

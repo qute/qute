@@ -118,6 +118,7 @@ typedef struct q_node_block {
   Q_NODE_FIELDS;
   q_node_t *nodes[QMAX_BLOCK_NODES];
   size_t length;
+  int cursor;
 } q_node_block_t;
 
 /**

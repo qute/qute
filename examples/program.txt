@@ -1,0 +1,15 @@
+name = "werle"
+
+def hello ()
+  print("hello", name)
+end
+
+def goodbye ()
+  print("goodbye", name)
+end
+
+def main ()
+  hello()
+  sleep(2)
+  goodbye()
+end

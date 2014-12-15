@@ -41,9 +41,10 @@ test: $(TESTS)
 
 .PHONY: $(EXAMPLES)
 $(EXAMPLES):
-	$(CC) -I. -Ideps $(LIB) $(@).c -o $(@)
+	$(CC) -I. -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
 
 .PHONY: $(TESTS)
 $(TESTS):
 	$(CC) -I. -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
 	./$(@)
+
