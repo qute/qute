@@ -10,14 +10,14 @@ You can install **qute** serveral ways.
 As part of a [clib](https://github.com/clibs/clib) package:
 
 ```sh
-$ clib install jwerle/qute
+$ clib install qute/qute
 ```
 
 As a system static library using
 [ghi](https://github.com/stephenmathieson/ghi):
 
 ```sh
-$ ghi jwerle/qute
+$ ghi qute/qute
 ```
 
 Or from source:

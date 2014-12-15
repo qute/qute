@@ -1,7 +1,7 @@
 {
   "name": "qute",
   "version": "0.0.2",
-  "repo": "jwerle/qute",
+  "repo": "qute/qute",
   "description": "Simple lexer and parser",
   "keywords": ["parser", "lexer"],
   "devDependencies": {
