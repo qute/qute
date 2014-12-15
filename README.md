@@ -86,7 +86,7 @@ When compiled will yield:
 
 ## example program
 
-Using the [program example](/tree/master/examples/program.c)
+Using the [program example](/examples/program.c)
 with the following syntax we can parse and run a simple program that has
 functions, variables, scope, and a few built ins like the `print()` and
 `sleep` functions.
