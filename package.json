@@ -9,14 +9,15 @@
     "jwerle/libok": "*"
   },
   "src": [
-    "ast.c",
     "ast.h",
-    "lex.c",
+    "ast.c",
     "lex.h",
+    "lex.c",
     "qute.h",
     "error.h",
-    "parser.c",
+    "error.c",
     "parser.h"
+    "parser.c",
   ]
 }
 
