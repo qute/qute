@@ -13,9 +13,9 @@ main (void) {
   memset(&program, 0, sizeof(program));
 
   const char *name = "test";
-  const char *src = "123 \"456\" 789\n" // string number string
-    "(a,b,c,d)\n" // token id id id id token
-    "[0,1]"; // bracket number number bracket
+  const char *src = "123 \"456\" 789\n" // number string number
+                    "(a,b,c,d)\n" // token id id id id token
+                    "[0,1]"; // bracket number number bracket
 
   // init
   if ((rc = q_parser_init(&parser, name, src)) > 0) {
