@@ -16,8 +16,8 @@
     "qute.h",
     "error.h",
     "error.c",
-    "parser.h"
-    "parser.c",
+    "parser.h",
+    "parser.c"
   ]
 }
 
