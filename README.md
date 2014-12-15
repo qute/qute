@@ -45,7 +45,7 @@ then just include the source in compilation and include as such:
 
 ```sh
 $ cc -Ideps $(ls deps/qute/*.c) program.c -o program
-``
+```
 
 ```c
 #include <qute/qute.h>
