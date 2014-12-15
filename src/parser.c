@@ -7,10 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "ast.h"
-#include "lex.h"
-#include "error.h"
-#include "parser.h"
+#include "qute.h"
 
 int
 q_parser_init (q_parser_t *self, const char *name, const char *src) {

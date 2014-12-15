@@ -9,9 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "lex.h"
-#include "ast.h"
-#include "error.h"
+#include "qute.h"
 
 #define peek(self) self->src[self->offset]
 #define EQ(a, b) (0 == strcmp(a, b))

@@ -5,16 +5,50 @@ Simple lexer and parser API
 
 ## install
 
-With clib:
+You can install **qute** serveral ways.
+
+As part of a [clib](https://github.com/clibs/clib) package:
 
 ```sh
 $ clib install jwerle/qute
 ```
 
-From source:
+As a system static library using
+[ghi](https://github.com/stephenmathieson/ghi):
 
 ```sh
+$ ghi jwerle/qute
+```
+
+Or from source:
+
+```sh
+$ make
 $ make install
+```
+
+## linking
+
+You can link the libary if installed from source or with
+[ghi](https://github.com/stephenmathieson/ghi):
+
+```sh
+$ cc -lqute program.c -o program
+```
+
+```c
+#include <qute.h>
+```
+
+If you've installed **qute** with [clib](https://github.com/clibs/clib):
+then just include the source in compilation and include as such:
+
+```sh
+$ cc -Ideps $(ls deps/qute/*.c) program.c -o program
+``
+
+```c
+#include <qute/qute.h>
 ```
 
 ## example

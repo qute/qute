@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ast.h"
-#include "error.h"
+#include "qute.h"
 
 void
 qthrow (q_node_block_t *block, q_node_t *node, const char *name, const char *message) {

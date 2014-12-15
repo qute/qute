@@ -8,8 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ast.h"
-#include "error.h"
+#include "qute.h"
 
 int
 q_node_init (q_node_t *self) {

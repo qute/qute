@@ -1,5 +1,5 @@
 
-SRC = $(wildcard *.c)
+SRC = $(wildcard src/*.c)
 LIB ?= libqute.a
 OBJS ?= $(SRC:.c=.o)
 
@@ -19,19 +19,20 @@ $(LIB): $(OBJS)
 
 .PHONY: $(OBJS)
 $(OBJS):
-	$(CC) -c $(@:.o=.c) -o $(@)
+	$(CC) -Iinclude -c $(@:.o=.c) -o $(@)
 
 clean:
 	rm -f $(LIB) $(OBJS)
 	rm -f $(TESTS)
 	rm -f $(EXAMPLES)
 
-install: $(LIB)
+install: uninstall $(LIB)
 	install $(LIB) $(PREFIX)/lib
+	cp -rf include/* $(PREFIX)/include/
 
 uninstall:
 	rm -f $(PREFIX)/lib/$(LIB)
-
+	rm -rf $(PREFIX)/include/qute*
 
 examples/: examples
 examples: $(EXAMPLES)
@@ -41,10 +42,10 @@ test: $(TESTS)
 
 .PHONY: $(EXAMPLES)
 $(EXAMPLES):
-	$(CC) -I. -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
+	$(CC) -Iinclude -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
 
 .PHONY: $(TESTS)
 $(TESTS):
-	$(CC) -I. -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
+	$(CC) -Iinclude -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
 	./$(@)
 

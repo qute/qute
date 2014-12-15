@@ -1,6 +1,6 @@
 {
   "name": "qute",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repo": "jwerle/qute",
   "description": "Simple lexer and parser",
   "keywords": ["parser", "lexer"],
@@ -9,15 +9,15 @@
     "jwerle/libok": "*"
   },
   "src": [
-    "ast.h",
-    "ast.c",
-    "lex.h",
-    "lex.c",
     "qute.h",
-    "error.h",
-    "error.c",
-    "parser.h",
-    "parser.c"
+    "src/ast.c",
+    "src/lex.c",
+    "src/error.c",
+    "src/parser.c",
+    "include/qute/ast.h",
+    "include/qute/lex.h",
+    "include/qute/parser.h",
+    "include/qute/error.h"
   ]
 }
 
