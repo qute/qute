@@ -48,7 +48,6 @@
   qthrow(p, n, "ReferenceError", tmp);                               \
 })
 
-
 enum {
   TYPE_STRING,
   TYPE_NUMBER,
@@ -81,12 +80,6 @@ typedef struct p_function_stmt_s {
 typedef struct p_assignment_stmt_s {
   PSTATEMENT_FIELDS;
 } p_assignment_stmt_t;
-
-typedef struct p_expression_stmt_s {
-  PSTATEMENT_FIELDS;
-  struct p_expression_stmt_s *expressions[QMAX_BLOCK_NODES];
-  size_t expressions_length;
-} p_expression_stmt_t;
 
 typedef struct p_function_arguments_s {
   q_node_block_t *scope;
@@ -285,14 +278,9 @@ p_assignment_stmt_new (q_node_block_t *block, p_stack_t *stack, const char *id, 
 }
 
 int
-p_expression_stmt_new (q_node_block_t *block, p_stack_t *stack, q_node_t **nodes) {
-  return 0;
-}
-
-int
 p_parse (q_node_block_t *block, p_stack_t *mem) {
   q_node_t *node = NULL;
-  p_stack_t *scope;
+  p_stack_t *scope = NULL;
 
   scope = mem;
 
@@ -414,6 +402,7 @@ p_print (p_function_arguments_t *arguments) {
   for (; i < length; ++i) {
     q_node_t *node = arguments->nodes[i];
     char *value = arguments->values[i];
+
     if (QNODE_STRING == node->type ||
         QNODE_NUMBER == node->type ||
         QNODE_IDENTIFIER == node->type) {
@@ -473,9 +462,7 @@ main (int argc, char **argv) {
   }
 
   q_node_alloc(block, program);
-
   heap = (p_stack_t *) malloc(sizeof(p_stack_t));
-
   src = fs_read(name);
 
   // init
@@ -491,7 +478,6 @@ main (int argc, char **argv) {
   }
 
   p_init_native(program, heap);
-
   rc = p_parse(program, heap);
 
   // run main if defined

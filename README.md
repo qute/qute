@@ -1,7 +1,9 @@
 qute
 ====
 
-Simple lexer and parser API
+qute is a text lexer and less of a parser. It generates a node list for you to
+create meaning. It makes little assumptions about what it scans, but
+just enough to create a simple list of nodes to parse.
 
 ## install
 
