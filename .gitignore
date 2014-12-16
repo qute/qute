@@ -34,3 +34,4 @@ test/ast
 test/lex
 test/parser
 examples/program
+examples/json

@@ -1,0 +1,12 @@
+{
+  "name": "bradley",
+  "type": "kinkajou",
+  "value": null,
+  "age": 4,
+  "food": ["bananas", "oranges", "pineapple"],
+  "friends": [
+    {"name": "tobi"},
+    {"name": "brian"},
+    {"name": "sally"}
+  ]
+}

@@ -42,7 +42,7 @@ test: $(TESTS)
 
 .PHONY: $(EXAMPLES)
 $(EXAMPLES):
-	$(CC) -Iinclude -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
+	$(CC) -Iinclude -Ideps $(CFLAGS) $(LIB) $(@).c $(DEP_SRC) -o $(@)
 
 .PHONY: $(TESTS)
 $(TESTS):
