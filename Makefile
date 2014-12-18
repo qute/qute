@@ -1,51 +1,44 @@
 
+CFLAGS += -Ideps -Iinclude -Wall -std=c99
 SRC = $(wildcard src/*.c)
-LIB ?= libqute.a
-OBJS ?= $(SRC:.c=.o)
+HEADERS = $(wildcard include/*.h include/qute/*.h)
+OBJS = $(SRC:.c=.o)
+DEPS = $(wildcard deps/*/*.c)
+DEP_OBJS = $(DEPS:.c=.o)
+TESTS = $(wildcard test/*.c)
+EXAMPLES = $(wildcard examples/*.c)
 
-PREFIX ?= /usr/local
+libqute.a: $(DEP_OBJS) $(OBJS)
+	ar crus $@ $^
 
-DEP_SRC ?= $(wildcard deps/*/*.c)
+test: $(TESTS:.c=)
+	$(foreach TEST, $^, ./$(TEST);)
 
-EXAMPLES_SRC ?= $(wildcard examples/*.c)
-EXAMPLES ?= $(EXAMPLES_SRC:.c=)
+examples: $(EXAMPLES:.c=)
 
-TESTS_SRC ?= $(wildcard test/*.c)
-TESTS ?= $(TESTS_SRC:.c=)
+test/ast: test/ast.o $(DEP_OBJS) $(OBJS)
+test/lex: test/lex.o $(DEP_OBJS) $(OBJS)
+test/parser: test/parser.o $(DEP_OBJS) $(OBJS)
+test/simple: test/simple.o $(DEP_OBJS) $(OBJS)
 
-.PHONY: $(LIB)
-$(LIB): $(OBJS)
-	ar crus $(@) $(OBJS)
-
-.PHONY: $(OBJS)
-$(OBJS):
-	$(CC) -Iinclude -c $(@:.o=.c) -o $(@)
+examples/basic: examples/basic.o $(DEP_OBJS) $(OBJS)
+examples/json: examples/json.o $(DEP_OBJS) $(OBJS)
+examples/json.o: CFLAGS += -DTEST
+examples/math: examples/math.o $(DEP_OBJS) $(OBJS)
+examples/program: examples/program.o $(DEP_OBJS) $(OBJS)
 
 clean:
-	rm -f $(LIB) $(OBJS)
-	rm -f $(TESTS)
-	rm -f $(EXAMPLES)
+	rm -f libqute.a
+	rm -f $(OBJS) $(DEP_OBJS)
+	rm -f $(TESTS:.c=.o) $(TESTS:.c=)
+	rm -f $(EXAMPLES:.c=.o) $(EXAMPLES:.c=)
 
-install: uninstall $(LIB)
-	install $(LIB) $(PREFIX)/lib
-	cp -rf include/* $(PREFIX)/include/
+install: libqute.a
+	install $^ $(PREFIX)/lib
+	cp -rf include/* $(PREFIX)/include
 
 uninstall:
 	rm -f $(PREFIX)/lib/$(LIB)
 	rm -rf $(PREFIX)/include/qute*
 
-examples/: examples
-examples: $(EXAMPLES)
-
-test/: test
-test: $(TESTS)
-
-.PHONY: $(EXAMPLES)
-$(EXAMPLES):
-	$(CC) -Iinclude -Ideps $(CFLAGS) $(LIB) $(@).c $(DEP_SRC) -o $(@)
-
-.PHONY: $(TESTS)
-$(TESTS):
-	$(CC) -Iinclude -Ideps $(LIB) $(@).c $(DEP_SRC) -o $(@)
-	./$(@)
-
+.PHONY: test examples clean install uninstall
