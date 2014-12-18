@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "strdup/strdup.h"
 #include "qute.h"
 
 int

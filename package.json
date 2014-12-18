@@ -4,6 +4,9 @@
   "repo": "qute/qute",
   "description": "Simple lexer and parser",
   "keywords": ["parser", "lexer"],
+  "dependencies": {
+    "strdup": "0.0.0"
+  },
   "devDependencies": {
     "jwerle/fs.c": "*",
     "jwerle/libok": "*"
