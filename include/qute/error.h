@@ -24,12 +24,6 @@ enum {
 #undef X
 };
 
-static char *qerror_str[] = {
-#define X(x) # x
-  QERROR_TYPES
-#undef X
-};
-
 void
 qthrow (q_program_t *, q_node_t *, const char *, const char *);
 

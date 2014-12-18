@@ -41,16 +41,6 @@ typedef enum {
 } q_lex_tok_t;
 
 /**
- * token type strings.
- */
-
-static char *qlex_tok_str[] = {
-#define X(x) # x
-  QLEX_TOKEN_TYPES
-#undef X
-};
-
-/**
  * lexer token structure.
  */
 
