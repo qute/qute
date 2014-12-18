@@ -62,7 +62,6 @@ token (q_lex_t *self, q_lex_tok_t type, const char *string) {
   self->token.colno = self->colno;
   self->token.lineno = self->lineno;
 
-  printf("strdup('%s')\n", string);
   self->token.as.string = strdup(string);
   self->token.as.number = 0;
 

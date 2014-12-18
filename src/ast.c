@@ -33,7 +33,6 @@ q_node_destroy (void *self) {
   if (!self) { return; }
   q_node_t *node = (q_node_t *) self;
   if (node->as.string) {
-    printf("free('%s')\n", node->as.string);
     free(node->as.string);
   }
   free(node);
@@ -71,7 +70,6 @@ q_node_string_init (q_node_string_t *self, const char *string) {
   self->type = QNODE_STRING;
   if (NULL != string) {
     self->length = strlen(string);
-    printf("strdup('%s')\n", string);
     self->as.string = strdup(string);
   }
 
@@ -90,7 +88,6 @@ q_node_number_init (q_node_number_t *self, float number) {
     return QE_NODE_NULL;
   }
 
-  printf("asprintf('%f')\n", number);
   if (-1 == asprintf(&self->as.string, "%f", number)) {
     return QE_ASTNODEMEM;
   }
