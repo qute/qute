@@ -5,7 +5,8 @@
   "description": "Simple lexer and parser",
   "keywords": ["parser", "lexer"],
   "dependencies": {
-    "strdup": "0.0.0"
+    "strdup": "0.0.0",
+    "littlstar/asprintf.c": "0.0.3"
   },
   "devDependencies": {
     "jwerle/fs.c": "*",

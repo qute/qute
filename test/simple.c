@@ -16,8 +16,8 @@
 
 int
 main (void) {
-  const char *name = "simple";
-  const char *src = fs_read("./test/simple.txt");
+  char *name = "simple";
+  char *src = fs_read("./test/simple.txt");
   int index = 0;
 
   q_program_t program;
@@ -27,11 +27,14 @@ main (void) {
 
   // init
   if (q_parser_init(&parser, name, src) > 0) {
+    free(src);
     return 1;
   }
 
   // parse
   if (q_parse(&parser, &program) > 0) {
+    free(src);
+    q_parser_destroy(&parser);
     return 1;
   }
 
@@ -94,8 +97,12 @@ main (void) {
       sprintf(buf, "node[%s]: `%s'",
         qnode_str[node->type],
         node->as.string);
+      q_node_destroy(node);
       ok(buf);
   });
+
+  free(src);
+  q_parser_destroy(&parser);
 
   ok_done();
   return 0 == ok_count();
