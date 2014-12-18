@@ -59,7 +59,7 @@ typedef struct q_lex_token {
   int lineno;
   int colno;
   struct {
-    char *string;
+    const char *string;
     float number;
   } as;
 } q_lex_token_t;
