@@ -83,12 +83,6 @@ typedef enum {
 #undef X
 } q_node_type_t;
 
-static char *qnode_str[] = {
-#define X(x) # x
-  QNODE_TYPES
-#undef X
-};
-
 struct q_node_as_s {
   const char *string;
   float number;

@@ -1,7 +1,6 @@
 
 CFLAGS += -Ideps -Iinclude -Wall -std=c99
 SRC = $(wildcard src/*.c)
-HEADERS = $(wildcard include/*.h include/qute/*.h)
 OBJS = $(SRC:.c=.o)
 DEPS = $(wildcard deps/*/*.c)
 DEP_OBJS = $(DEPS:.c=.o)

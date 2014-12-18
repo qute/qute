@@ -36,7 +36,6 @@ next (q_lex_t *self) {
 
 static unsigned char
 prev (q_lex_t *self) {
-  unsigned char ch = 0;
   int idx = self->offset - 1;
   if (idx < 0) {
     self->offset = 0;
