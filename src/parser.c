@@ -35,13 +35,6 @@ q_parser_init (q_parser_t *self, const char *name, const char *src) {
   return 0;
 }
 
-void
-q_parser_destroy (q_parser_t *self) {
-  if (self && self->lex) {
-    free(self->lex);
-  }
-}
-
 int
 q_parse (q_parser_t *self, q_node_block_t *root) {
   int rc = 0;
@@ -74,25 +67,15 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
 
       case QTOK_STRING:
         if (NULL == q_node_alloc(string, string)) { return QE_PARSERMEM; }
-
-        printf("q_node_alloc('string')\n");
-
         rc = q_node_string_init(string, self->lex->token.as.string);
-        if (rc > 0) {
-          q_node_destroy(token);
-          return rc;
-        }
+        if (rc > 0) { return rc; }
         node = (q_node_t *) string;
         break;
 
       case QTOK_NUMBER:
         if (NULL == q_node_alloc(number, number)) { return QE_PARSERMEM; }
-        printf("q_node_alloc('number')\n");
         rc = q_node_number_init(number, self->lex->token.as.number);
-        if (rc > 0) {
-          q_node_destroy(token);
-          return rc;
-        }
+        if (rc > 0) { return rc; }
         node = (q_node_t *) number;
         break;
 
@@ -104,36 +87,22 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
       case QTOK_LBRACKET:
       case QTOK_RBRACKET:
         if (NULL == q_node_alloc(token, token)) { return QE_PARSERMEM; }
-        printf("q_node_alloc('token')\n");
         rc = q_node_token_init(token);
-        if (rc > 0) {
-          q_node_destroy(token);
-          return rc;
-        }
+        if (rc > 0) { return rc; }
         node = (q_node_t *) token;
         break;
 
       case QTOK_OPERATOR:
         if (NULL == q_node_alloc(operator, operator)) { return QE_PARSERMEM; }
-
-        printf("q_node_alloc('operator')\n");
         rc = q_node_operator_init(operator);
-        if (rc > 0) {
-          q_node_destroy(token);
-          return rc;
-        }
+        if (rc > 0) { return rc; }
         node = (q_node_t *) operator;
         break;
 
       case QTOK_IDENTIFIER:
         if (NULL == q_node_alloc(identifier, identifier)) { return QE_PARSERMEM; }
-
-        printf("q_node_alloc('identifier')\n");
         rc = q_node_identifier_init(identifier);
-        if (rc > 0) {
-          q_node_destroy(token);
-          return rc;
-        }
+        if (rc > 0) { return rc; }
         node = (q_node_t *) identifier;
         break;
     }

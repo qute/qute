@@ -90,7 +90,7 @@ static char *qnode_str[] = {
 };
 
 struct q_node_as_s {
-  char *string;
+  const char *string;
   float number;
 };
 
@@ -168,13 +168,6 @@ typedef struct q_node_identifier {
 
 int
 q_node_init (q_node_t *);
-
-/**
- * destroy a parser node.
- */
-
-void
-q_node_destroy (void *);
 
 /**
  * initializes parser block node.

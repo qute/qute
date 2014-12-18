@@ -30,13 +30,6 @@ int
 q_parser_init (q_parser_t *, const char *, const char *);
 
 /**
- * destroy/cleanup the parser.
- */
-
-void
-q_parser_destroy (q_parser_t *);
-
-/**
  * parse current parser state into block node
  */
 
