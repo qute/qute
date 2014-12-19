@@ -52,7 +52,7 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
 
   root->id = self->name;
 
-  while (0 == (rc = q_lex_scan(self->lex))) {
+  while (0 == (rc = q_lex_scan(self->lex, self->lexopts))) {
     q_node_identifier_t *identifier = NULL;
     q_node_operator_t *operator = NULL;
     q_node_string_t *string = NULL;

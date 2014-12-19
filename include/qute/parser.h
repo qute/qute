@@ -17,9 +17,10 @@ struct q_parser;
  */
 
 typedef struct q_parser {
-  q_lex_t *lex;
   const char *src;
   const char *name;
+  q_lex_opts_t lexopts;
+  q_lex_t *lex;
 } q_parser_t;
 
 /**

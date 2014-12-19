@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 struct q_lex;
+struct q_lex_opts;
 struct q_lex_token;
 
 /**
@@ -65,6 +66,22 @@ typedef struct q_lex_token {
 } q_lex_token_t;
 
 /**
+ * lexer options structure.
+ */
+
+typedef struct q_lex_opts {
+  struct {
+    char newline;
+    char creturn;
+    char comment;
+    char dquote;
+    char squote;
+    char space;
+    char tab;
+  } ch;
+} q_lex_opts_t;
+
+/**
  * lexer structure.
  */
 
@@ -78,6 +95,7 @@ typedef struct q_lex {
   unsigned char ch;
   q_lex_token_t token;
 } q_lex_t;
+
 
 /**
  * initializes lexer token with type.
@@ -98,6 +116,6 @@ q_lex_init (q_lex_t *, const char *, const char *);
  */
 
 int
-q_lex_scan (q_lex_t *);
+q_lex_scan (q_lex_t *, q_lex_opts_t);
 
 #endif

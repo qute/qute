@@ -181,37 +181,41 @@ q_lex_init (q_lex_t *self, const char *name, const char *src) {
 }
 
 int
-q_lex_scan (q_lex_t *self) {
+q_lex_scan (q_lex_t *self, q_lex_opts_t opts) {
   unsigned char ch = 0;
   char tmp[BUFSIZ];
+
+  // initialize options
+  if (0 == opts.ch.space) {
+    opts.ch.space = ' ';
+  }
+
+  if (0 == opts.ch.tab) {
+    opts.ch.tab = '\t';
+  }
+
+  if (0 == opts.ch.newline) {
+    opts.ch.newline = '\n';
+  }
+
+  if (0 == opts.ch.creturn) {
+    opts.ch.creturn = '\r';
+  }
+
+  if (0 == opts.ch.dquote) {
+    opts.ch.dquote = '"';
+  }
+
 scan:
   memset(tmp, 0, BUFSIZ);
   ch = next(self);
+
+
+  // handle constant tokens
   switch (ch) {
-    // EOF
+  // EOF
     case '\0':
       return -1;
-
-    // white space and tabs
-    case ' ': case '\t':
-      goto scan;
-
-    // handle user defined comment character
-#ifdef QCHAR_COMMENT
-    case QCHAR_COMMENT:
-      while (ch != '\n' && ch != '\r') { ch = next(self); }
-      goto scan;
-#endif
-
-    // handle newlines
-    case '\n': case '\r':
-      self->lineno++;
-      self->colno = 1;
-      goto scan;
-
-    // scan quoted string
-    case '"': case '\'':
-      return scan_string(self, ch);
 
     case ',':
       token(self, QTOK_COMMA, ",");
@@ -251,6 +255,30 @@ scan:
       break;
 
     default:
+
+      // white space and tabs
+      if (ch == opts.ch.space || ch == opts.ch.tab) {
+        goto scan;
+      }
+
+      // handle comments
+      if (ch == opts.ch.comment) {
+        while (ch != '\n' && ch != '\r') { ch = next(self); }
+        goto scan;
+      }
+
+      // handle newlines
+      if (ch == opts.ch.newline || ch == opts.ch.creturn) {
+        self->lineno++;
+        self->colno = 1;
+        goto scan;
+      }
+
+      // scan quoted string
+      if (ch == opts.ch.dquote || ch == opts.ch.squote) {
+        return scan_string(self, ch);
+      }
+
       return scan_identifier(self, ch);
   }
 
