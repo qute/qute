@@ -7,6 +7,7 @@ DEPS = $(wildcard deps/*/*.c)
 DEP_OBJS = $(DEPS:.c=.o)
 TESTS = $(wildcard test/*.c)
 EXAMPLES = $(wildcard examples/*.c)
+PREFIX ?= /usr/local
 
 libqute.a: $(DEP_OBJS) $(OBJS)
 	ar crus $@ $^
