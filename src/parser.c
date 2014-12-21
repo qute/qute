@@ -58,7 +58,6 @@ q_parse (q_parser_t *self, q_node_block_t *root) {
     q_node_string_t *string = NULL;
     q_node_number_t *number = NULL;
     q_node_token_t *token = NULL;
-    q_node_block_t *block = NULL;
     q_node_t *node = NULL;
 
     switch (self->lex->token.type) {

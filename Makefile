@@ -41,4 +41,9 @@ uninstall:
 	rm -f $(PREFIX)/lib/$(LIB)
 	rm -rf $(PREFIX)/include/qute*
 
-.PHONY: test examples clean install uninstall
+link: uninstall $(LIB)
+	ln -sf $(LIB) $(PREFIX)/lib
+	ln -sf include/qute.h $(PREFIX)/include
+	ln -sf include/qute $(PREFIX)/include/qute
+
+.PHONY: test examples clean install uninstall link
