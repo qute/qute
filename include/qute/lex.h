@@ -71,13 +71,13 @@ typedef struct q_lex_token {
 
 typedef struct q_lex_opts {
   struct {
-    char newline;
-    char creturn;
-    char comment;
-    char dquote;
-    char squote;
-    char space;
-    char tab;
+    unsigned char newline;
+    unsigned char creturn;
+    unsigned char comment;
+    unsigned char dquote;
+    unsigned char squote;
+    unsigned char space;
+    unsigned char tab;
   } ch;
 } q_lex_opts_t;
 
@@ -93,6 +93,7 @@ typedef struct q_lex {
   const char *src;
   const char *name;
   unsigned char ch;
+  q_lex_opts_t opts;
   q_lex_token_t token;
 } q_lex_t;
 
@@ -116,6 +117,6 @@ q_lex_init (q_lex_t *, const char *, const char *);
  */
 
 int
-q_lex_scan (q_lex_t *, q_lex_opts_t);
+q_lex_scan (q_lex_t *);
 
 #endif

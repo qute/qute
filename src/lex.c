@@ -173,37 +173,40 @@ q_lex_init (q_lex_t *self, const char *name, const char *src) {
   self->src = src;
   self->name = name;
   self->colno = 1;
+
   self->lineno = 1;
   self->offset = 0;
   self->length = strlen(src);
+
+  memset(&self->opts, 0, sizeof(self->opts));
 
   return 0;
 }
 
 int
-q_lex_scan (q_lex_t *self, q_lex_opts_t opts) {
+q_lex_scan (q_lex_t *self) {
   unsigned char ch = 0;
   char tmp[BUFSIZ];
 
   // initialize options
-  if (0 == opts.ch.space) {
-    opts.ch.space = ' ';
+  if (0 == self->opts.ch.space) {
+    self->opts.ch.space = ' ';
   }
 
-  if (0 == opts.ch.tab) {
-    opts.ch.tab = '\t';
+  if (0 == self->opts.ch.tab) {
+    self->opts.ch.tab = '\t';
   }
 
-  if (0 == opts.ch.newline) {
-    opts.ch.newline = '\n';
+  if (0 == self->opts.ch.newline) {
+    self->opts.ch.newline = '\n';
   }
 
-  if (0 == opts.ch.creturn) {
-    opts.ch.creturn = '\r';
+  if (0 == self->opts.ch.creturn) {
+    self->opts.ch.creturn = '\r';
   }
 
-  if (0 == opts.ch.dquote) {
-    opts.ch.dquote = '"';
+  if (0 == self->opts.ch.dquote) {
+    self->opts.ch.dquote = '"';
   }
 
 scan:
@@ -257,25 +260,25 @@ scan:
     default:
 
       // white space and tabs
-      if (ch == opts.ch.space || ch == opts.ch.tab) {
+      if (ch == self->opts.ch.space || ch == self->opts.ch.tab) {
         goto scan;
       }
 
       // handle comments
-      if (ch == opts.ch.comment) {
+      if (ch == self->opts.ch.comment) {
         while (ch != '\n' && ch != '\r') { ch = next(self); }
         goto scan;
       }
 
       // handle newlines
-      if (ch == opts.ch.newline || ch == opts.ch.creturn) {
+      if (ch == self->opts.ch.newline || ch == self->opts.ch.creturn) {
         self->lineno++;
         self->colno = 1;
         goto scan;
       }
 
       // scan quoted string
-      if (ch == opts.ch.dquote || ch == opts.ch.squote) {
+      if (ch == self->opts.ch.dquote || ch == self->opts.ch.squote) {
         return scan_string(self, ch);
       }
 
