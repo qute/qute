@@ -7,7 +7,6 @@
 #ifndef QUTE_PARSER_H
 #define QUTE_PARSER_H
 
-#include "lex.h"
 #include "ast.h"
 
 struct q_parser;
@@ -19,7 +18,6 @@ struct q_parser;
 typedef struct q_parser {
   const char *src;
   const char *name;
-  q_lex_t *lex;
 } q_parser_t;
 
 /**

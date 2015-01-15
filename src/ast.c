@@ -28,6 +28,24 @@ q_node_init (q_node_t *self) {
 }
 
 int
+q_node_hex_init (q_node_hex_t *self, const char *hex) {
+  int rc = q_node_init((q_node_t *) self);
+
+  if (rc > 0) {
+    return rc;
+  }
+
+  if (NULL == self) {
+    return QE_NODE_NULL;
+  }
+
+  self->type = QNODE_HEX;
+  self->as.string = hex;
+
+  return 0;
+}
+
+int
 q_node_block_init (q_node_block_t *self) {
   int rc = q_node_init((q_node_t *) self);
 
@@ -40,6 +58,7 @@ q_node_block_init (q_node_block_t *self) {
   }
 
   self->type = QNODE_BLOCK;
+  self->length = 0;
 
   return 0;
 }

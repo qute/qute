@@ -15,6 +15,7 @@
  */
 
 struct q_node;
+struct q_node_hex;
 struct q_node_as_s;
 struct q_node_block;
 struct q_node_token;
@@ -65,6 +66,7 @@ struct q_node_expression;
  */
 
 #define QNODE_TYPES          \
+  X(QNODE_HEX),              \
   X(QNODE_NULL),             \
   X(QNODE_BLOCK),            \
   X(QNODE_TOKEN),            \
@@ -101,6 +103,14 @@ struct q_node_as_s {
 typedef struct q_node {
   Q_NODE_FIELDS;
 } q_node_t;
+
+/**
+ * parser hex node.
+ */
+
+typedef struct q_node_hex {
+  Q_NODE_FIELDS;
+} q_node_hex_t;
 
 /**
  * parser token node.
@@ -168,6 +178,13 @@ typedef struct q_node_identifier {
 
 int
 q_node_init (q_node_t *);
+
+/**
+ * initializes parser hex node.
+ */
+
+int
+q_node_hex_init (q_node_hex_t *, const char *);
 
 /**
  * initializes parser block node.

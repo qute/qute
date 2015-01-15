@@ -18,6 +18,7 @@ struct q_lex_token;
  */
 
 #define QLEX_TOKEN_TYPES \
+  X(QTOK_HEX),           \
   X(QTOK_NONE),          \
   X(QTOK_COMMA),         \
   X(QTOK_STRING),        \

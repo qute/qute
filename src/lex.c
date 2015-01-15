@@ -112,6 +112,7 @@ scan_identifier (q_lex_t *self, unsigned char ch) {
   unsigned char buf[BUFSIZ];
   size_t size = 0;
   int num = 0;
+  int hex = 0;
   int set = 0;
   int i = 0;
 
@@ -136,7 +137,10 @@ scan_identifier (q_lex_t *self, unsigned char ch) {
   buf[size] = '\0';
   num = 1;
 
-  for (; i < size; ++i) {
+  if ('0' == buf[0] && 'x' == buf[1] && (isdigit(buf[2]) || isalpha(buf[2]))) {
+    hex = 1;
+    num = 0;
+  } else for (; i < size; ++i) {
     if (!isdigit(buf[i]) && '.' != buf[i]) {
       num = 0;
     }
@@ -149,6 +153,8 @@ scan_identifier (q_lex_t *self, unsigned char ch) {
 
   if (num) {
     token(self, QTOK_NUMBER, (char *) buf);
+  } else if (hex) {
+    token(self, QTOK_HEX, (char *) buf);
   } else {
     SET_TOKEN_IF(buf, QTOK_IDENTIFIER);
   }
